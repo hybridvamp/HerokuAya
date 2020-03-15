@@ -4,7 +4,6 @@ from io import BytesIO
 import base64
 from spongemock import spongemock
 from zalgo_text import zalgo
-from deeppyer import deepfry
 import os
 from pathlib import Path
 import glob
@@ -213,57 +212,6 @@ def zalgotext(bot: Bot, update: Update):
 
 
 @run_async
-def deepfryer(bot: Bot, update: Update):
-    message = update.effective_message
-    if message.reply_to_message:
-        data = message.reply_to_message.photo
-        data2 = message.reply_to_message.sticker
-    else:
-        data = []
-        data2 = []
-
-    # check if message does contain media and cancel when not
-    if not data and not data2:
-        message.reply_text("What am I supposed to do with this?!")
-        return
-
-    # download last photo (highres) as byte array
-    if data:
-        photodata = data[len(data) - 1].get_file().download_as_bytearray()
-        image = Image.open(io.BytesIO(photodata))
-    elif data2:
-        sticker = bot.get_file(data2.file_id)
-        sticker.download('sticker.png')
-        image = Image.open("sticker.png")
-
-    # the following needs to be executed async (because dumb lib)
-    loop = asyncio.new_event_loop()
-    loop.run_until_complete(process_deepfry(image, message.reply_to_message, bot))
-    loop.close()
-
-
-async def process_deepfry(image: Image, reply: Message, bot: Bot):
-    # DEEPFRY IT
-    image = await deepfry(
-        img=image,
-        token=DEEPFRY_TOKEN,
-        url_base='westeurope'
-    )
-
-    bio = BytesIO()
-    bio.name = 'image.jpeg'
-    image.save(bio, 'JPEG')
-
-    # send it back
-    bio.seek(0)
-    reply.reply_photo(bio)
-    if Path("sticker.png").is_file():
-        os.remove("sticker.png")
-
-# shitty maymay modules made by @divadsn ^^^
-
-
-@run_async
 def shout(bot: Bot, update: Update, args):
     if len(args) == 0:
         update.effective_message.reply_text("Where is text?")
@@ -307,7 +255,7 @@ MAFIA_HANDLER = DisableAbleCommandHandler("mafia", mafiatext, admin_ok=True)
 PIDOR_HANDLER = DisableAbleCommandHandler("pidor", pidortext, admin_ok=True)
 HITLER_HANDLER = DisableAbleCommandHandler("hitler", hitlertext, admin_ok=True)
 ZALGO_HANDLER = DisableAbleCommandHandler("zalgofy", zalgotext)
-DEEPFRY_HANDLER = DisableAbleCommandHandler("deepfry", deepfryer, admin_ok=True)
+# DEEPFRY_HANDLER = DisableAbleCommandHandler("deepfry", deepfryer, admin_ok=True)
 SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout, pass_args=True)
 
 
@@ -319,7 +267,7 @@ dispatcher.add_handler(STRETCH_HANDLER)
 dispatcher.add_handler(VAPOR_HANDLER)
 dispatcher.add_handler(MOCK_HANDLER)
 dispatcher.add_handler(ZALGO_HANDLER)
-dispatcher.add_handler(DEEPFRY_HANDLER)
+# dispatcher.add_handler(DEEPFRY_HANDLER)
 dispatcher.add_handler(KIM_HANDLER)
 dispatcher.add_handler(HITLER_HANDLER)
 
