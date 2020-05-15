@@ -8,7 +8,7 @@
     "manager",
     "3"
   ],
-  "repository": "https://github.com/Nitin1818/harukaaya",
+  "repository": "https://github.com/Nitin1818/Logan",
   "env": {
     "ENV": {
       "description": "Setting this to ANYTHING will enable env variables. But, you need to understand the code to know what to set here!",
@@ -57,7 +57,11 @@
     },
     "PORT": {
       "description": "Port to use for your webhooks",
-      "value": "8443"
+      "value": "9001"
+    },
+    "sw_token": {
+      "description": "Put ur spamwatch API here",
+      "value": "",
     },
     "DEL_CMDS": {
       "description": "Whether to delete commands from users which don't have rights to use that command",
