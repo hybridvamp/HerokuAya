@@ -57,7 +57,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
           "\n<b>• ID:</b> <code>{}</code>".format(html.escape(chat.title), mention_html(user.id, user.first_name), 
                                                   mention_html(member.user.id, member.user.first_name), user_id)
 
-    reply = "{} has been banned!".format(mention_html(member.user.id, member.user.first_name))
+    reply = "🔨 Banned {}\n with the ban hammer".format(mention_html(member.user.id, member.user.first_name))
 
     if reason:
         log += "\n<b>Reason:</b> {}".format(reason)
@@ -231,7 +231,7 @@ def kickme(bot: Bot, update: Update):
 
     res = update.effective_chat.unban_member(user_id)  # unban on current user = kick
     if res:
-        update.effective_message.reply_text("No problem.")
+        update.effective_message.reply_text("No problem\nget the fuck out from here")
     else:
         update.effective_message.reply_text("Huh? I can't :/")
 
@@ -295,7 +295,7 @@ def unban(bot: Bot, update: Update, args: List[str]) -> str:
         return ""
 
     chat.unban_member(user_id)
-    message.reply_text("Yep, this user can join!")
+    message.reply_text("Yeeah Now He or she can join again")
 
     log = "<b>{}:</b>" \
           "\n#UNBANNED" \
