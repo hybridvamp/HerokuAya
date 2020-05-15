@@ -20,7 +20,7 @@ PyLyrics
 hurry.filesize
 #translator
 googletrans
-
+spamwatch
 tldextract
 PyYAML
 pyowm
