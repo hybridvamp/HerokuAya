@@ -59,10 +59,6 @@
       "description": "Port to use for your webhooks",
       "value": "9001"
     },
-    "sw_token": {
-      "description": "Put ur spamwatch API here",
-      "value": "",
-    },
     "DEL_CMDS": {
       "description": "Whether to delete commands from users which don't have rights to use that command",
       "value": "True"
