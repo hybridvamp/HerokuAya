@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+import spamwatch
 
 import telegram.ext as tg
 
@@ -105,6 +106,18 @@ else:
 SUDO_USERS.add(OWNER_ID)
 SUDO_USERS.add(680915808) #Nitin's id
 
+
+# Spamwatch
+
+sw_token = ''
+if sw_token == None:
+    spamwtc = None
+    LOGGER.warning("Invalid spamwatch api")
+else:
+    spamwtc = spamwatch.Client(sw_token)
+    
+
+    
 updater = tg.Updater(TOKEN, workers=WORKERS)
 dispatcher = updater.dispatcher
 
