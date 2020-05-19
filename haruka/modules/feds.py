@@ -21,6 +21,8 @@ from haruka.modules.helper_funcs.chat_status import is_user_admin
 from haruka.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from haruka.modules.helper_funcs.string_handling import markdown_parser
 from haruka.modules.disable import DisableAbleCommandHandler
+from haruka.modules.translations.strings import tld
+from haruka.modules.helper_funcs.alternate import send_message
 
 import haruka.modules.sql.feds_sql as sql
 
@@ -610,6 +612,92 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 """
 
 @run_async
+def fed_stat_user(bot, update, args):
+
+	chat = update.effective_chat  # type: Optional[Chat]
+
+	user = update.effective_user  # type: Optional[User]
+	msg = update.effective_message  # type: Optional[Message]
+
+	if args:
+		if args[0].isdigit():
+			user_id = args[0]
+		else:
+			user_id = extract_user(msg, args)
+	else:
+		user_id = extract_user(msg, args)
+
+	if user_id:
+		if len(args) == 2 and args[0].isdigit():
+			fed_id = args[1]
+			user_name, reason, fbantime = sql.get_user_fban(fed_id, str(user_id))
+			if fbantime:
+				fbantime = time.strftime("%d/%m/%Y", time.localtime(fbantime))
+			else:
+				fbantime = "Unavaiable"
+			if user_name == False:
+				send_message(update.effective_message, tld(update.effective_message, "Federation {} not found!").format(fed_id), parse_mode="markdown")
+				return
+			if user_name == "" or user_name == None:
+				user_name = tld(update.effective_message, "Day")
+			if not reason:
+				send_message(update.effective_message, tld(update.effective_message, "{} has not been banned in this federation!").format(user_name))
+			else:
+				text = tld(update.effective_message, "{} banned in this federation because:\n`{}`\n*Banned on:* `{}`").format(user_name, reason, fbantime)
+				send_message(update.effective_message, text, parse_mode="markdown")
+			return
+		user_name, fbanlist = sql.get_user_fbanlist(str(user_id))
+		if user_name == "":
+			try:
+				user_name = bot.get_chat(user_id).first_name
+			except BadRequest:
+				user_name = tld(update.effective_message, "Day")
+			if user_name == "" or user_name == None:
+				user_name = tld(update.effective_message, "Day")
+		if len(fbanlist) == 0:
+			send_message(update.effective_message, tld(update.effective_message, "{} not yet banned in any federation!").format(user_name))
+			return
+		else:
+			text = tld(update.effective_message, "{} has been banned in this federation:\n").format(user_name)
+			for x in fbanlist:
+				text += "- `{}`: {}\n".format(x[0], x[1][:20])
+			text += tld(update.effective_message, "\nIf you want to find out more about the specific reasons for fedban, use it /fbanstat <FedID>")
+			send_message(update.effective_message, text, parse_mode="markdown")
+
+	elif not msg.reply_to_message and not args:
+		user_id = msg.from_user.id
+		user_name, fbanlist = sql.get_user_fbanlist(user_id)
+		if user_name == "":
+			user_name = msg.from_user.first_name
+		if len(fbanlist) == 0:
+			send_message(update.effective_message, tld(update.effective_message, "{} not yet banned in any federation!").format(user_name))
+		else:
+			text = tld(update.effective_message, "{} has been banned in this federation:\n").format(user_name)
+			for x in fbanlist:
+				text += "- `{}`: {}\n".format(x[0], x[1][:20])
+			text += tld(update.effective_message, "\nIf you want to find out more about the specific reasons for fedban, use it /fbanstat <FedID>")
+			send_message(update.effective_message, text, parse_mode="markdown")
+
+	else:
+		fed_id = args[0]
+		fedinfo = sql.get_fed_info(fed_id)
+		if not fedinfo:
+			send_message(update.effective_message, tld(update.effective_message, "Federation {} not found!").format(fed_id))
+			return
+		name, reason, fbantime = sql.get_user_fban(fed_id, msg.from_user.id)
+		if fbantime:
+			fbantime = time.strftime("%d/%m/%Y", time.localtime(fbantime))
+		else:
+			fbantime = "Unavaiable"
+		if not name:
+			name = msg.from_user.first_name
+		if not reason:
+			send_message(update.effective_message, tld(update.effective_message, "{} not banned in this federation").format(name))
+			return
+		send_message(update.effective_message, tld(update.effective_message, "{} banned in this federation because:\n`{}`\n*Banned on:* `{}`").format(name, reason, fbantime), parse_mode="markdown")
+
+
+@run_async
 def set_frules(bot: Bot, update: Update, args: List[str]):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -1137,6 +1225,7 @@ Command:
  - /fedadmins: Show Federation admin.
  - /fbanlist: Displays all users who are victimized at the Federation at this time.
  - /fedchats: Get all the chats that are connected in the Federation.
+ - /fbanstat: check number of fed's where u fbanned.
  - /importfbans: Reply to the Federation backup message file to import the banned list to the Federation now.
 """
 
@@ -1151,6 +1240,7 @@ BAN_FED_HANDLER = DisableAbleCommandHandler(["fban", "fedban"], fed_ban, pass_ar
 UN_BAN_FED_HANDLER = CommandHandler("unfban", unfban, pass_args=True)
 FED_BROADCAST_HANDLER = CommandHandler("fbroadcast", fed_broadcast, pass_args=True)
 FED_SET_RULES_HANDLER = CommandHandler("setfrules", set_frules, pass_args=True)
+FEDSTAT_USER = DisableAbleCommandHandler(["fedstat", "fbanstat"], fed_stat_user, pass_args=True)
 FED_GET_RULES_HANDLER = CommandHandler("frules", get_frules, pass_args=True)
 FED_CHAT_HANDLER = CommandHandler("chatfed", fed_chat, pass_args=True)
 FED_ADMIN_HANDLER = CommandHandler("fedadmins", fed_admin, pass_args=True)
@@ -1173,6 +1263,7 @@ dispatcher.add_handler(UN_BAN_FED_HANDLER)
 dispatcher.add_handler(FED_BROADCAST_HANDLER)
 dispatcher.add_handler(FED_SET_RULES_HANDLER)
 dispatcher.add_handler(FED_GET_RULES_HANDLER)
+dispatcher.add_handler(FEDSTAT_USER)
 dispatcher.add_handler(FED_CHAT_HANDLER)
 dispatcher.add_handler(FED_ADMIN_HANDLER)
 dispatcher.add_handler(FED_USERBAN_HANDLER)
