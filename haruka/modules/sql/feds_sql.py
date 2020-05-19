@@ -364,7 +364,18 @@ def get_fban_user(fed_id, user_id):
 	else:
 		return False, None
 
-
+def get_user_fbanlist(user_id):
+	banlist = FEDERATION_BANNED_FULL
+	user_name = ""
+	fedname = []
+	for x in banlist:
+		if banlist[x].get(user_id):
+			if user_name == "":
+				user_name = banlist[x][user_id].get('first_name')
+			fedname.append([x, banlist[x][user_id].get('reason')])
+	return user_name, fedname
+	
+	
 def get_all_fban_users(fed_id):
 	list_fbanned = FEDERATION_BANNED_USERID.get(fed_id)
 	if list_fbanned == None:
