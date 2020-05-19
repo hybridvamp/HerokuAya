@@ -1,18 +1,12 @@
-Dear anyone kanging my bot, At least, Don't fucking spam my private messages least. I'm tired of people copying my works and think it's so funny to do that.
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Nitin1818/HarukaAya/tree/Nitin1818-update-1)
 
-# Haruka Aya
+# Loganbot
 
-A modular Telegram Python bot running on python3 with an sqlalchemy database.
+A modular Telegram bot running on python3 with an sqlalchemy database, with some extra fun.
 
-Can be found on telegram as [Haruka Aya](https://t.me/HarukaAyaBot).
-
-Alternatively, [find me on telegram](https://t.me/RealAkito)! (Keep all support questions in the support chat, where more people can help you.)
-
-You can also join our support group [here!](https://t.me/HarukaAyaBot)
-(Keep in the mind that we does not support any fork of Haruka Aya.)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/88deb1379fc143f5b0d3292c86b2b02c)](https://app.codacy.com/manual/Nitin1818/Logan?utm_source=github.com&utm_medium=referral&utm_content=Nitin1818/Logan&utm_campaign=Badge_Grade_Dashboard)
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Nitin1818/HarukaAya/tree/Nitin1818-update-1)
+
 ## Thanks to
 
 * MrYacha - For pYanaBot :3
