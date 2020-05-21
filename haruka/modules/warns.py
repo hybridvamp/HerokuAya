@@ -21,7 +21,7 @@ from haruka.modules.log_channel import loggable
 from haruka.modules.sql import warns_sql as sql
 
 WARN_HANDLER_GROUP = 9
-CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
+CURRENT_WARNING_FILTER_STRING = "*Active warning filters in this chat:*\n"
 
 
 # Not async
@@ -48,7 +48,7 @@ def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = N
             reply = "{} warnings, {} has been banned!".format(limit, mention_html(user.id, user.first_name))
 
         for warn_reason in reasons:
-            reply += "\n - {}".format(html.escape(warn_reason))
+            reply += "\n • {}".format(html.escape(warn_reason))
 
         keyboard = []
         log_reason = "<b>{}:</b>" \
@@ -63,7 +63,7 @@ def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = N
 
     else:
         keyboard = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Remove warn (admin only)", callback_data="rm_warn({})".format(user.id))]])
+            [[InlineKeyboardButton("Remove warn⚠️(admin only)", callback_data="rm_warn({})".format(user.id))]])
 
         reply = "{} <b>has been warned!</b>\nTotal warn that this user have {}/{}".format(mention_html(user.id, user.first_name), num_warns,
                                                              limit)
@@ -214,7 +214,7 @@ def warns(bot: Bot, update: Update, args: List[str]):
         if reasons:
             text = "This user has {}/{} warnings, for the following reasons:".format(num_warns, limit)
             for reason in reasons:
-                text += "\n - {}".format(reason)
+                text += "\n • {}".format(reason)
 
             msgs = split_message(text)
             for msg in msgs:
@@ -301,15 +301,15 @@ def list_warn_filters(bot: Bot, update: Update):
 
     filter_list = CURRENT_WARNING_FILTER_STRING
     for keyword in all_handlers:
-        entry = " - {}\n".format(html.escape(keyword))
+        entry = " • `{}`\n".format(html.escape(keyword))
         if len(entry) + len(filter_list) > telegram.MAX_MESSAGE_LENGTH:
-            update.effective_message.reply_text(filter_list, parse_mode=ParseMode.HTML)
+            update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.MARKDOWN)
             filter_list = entry
         else:
             filter_list += entry
 
     if not filter_list == CURRENT_WARNING_FILTER_STRING:
-        update.effective_message.reply_text(filter_list, parse_mode=ParseMode.HTML)
+        update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.MARKDOWN)
 
 
 @run_async
