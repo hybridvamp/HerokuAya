@@ -164,7 +164,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
     try:
         if int(bannerid) == int(172811422) or int(214416808):
             return
-        chat.kick_member(user_chat.id)
+        bot.kick_chat_member(user_id, chat.id)
     except:
         print("Meh")
 
@@ -262,7 +262,7 @@ def gbanlist(bot: Bot, update: Update):
 
     banfile = 'Screw these guys.\n'
     for user in banned_users:
-        banfile += "[x] {} - {}\n".format(user["name"], user["user_id"])
+        banfile += "[x] {} • {}\n".format(user["name"], user["user_id"])
         if user["reason"]:
             banfile += "Reason: {}\n".format(user["reason"])
 
