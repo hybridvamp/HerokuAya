@@ -1,6 +1,5 @@
 from html import escape
-import time
-import re
+import time, re
 from typing import Optional, List
 
 from telegram import Message, Chat, Update, Bot, User, CallbackQuery
@@ -269,7 +268,6 @@ def check_bot_button(bot: Bot, update: Update):
     user = update.effective_user  # type: Optional[User]
     query = update.callback_query  # type: Optional[CallbackQuery]
     match = re.match(r"check_bot_\((.+?)\)", query.data)
-    user_id = int(match.group(1))
     message = update.effective_message  # type: Optional[Message]
     getalluser = sql.get_chat_userlist(chat.id)
     if user.id in getalluser:
