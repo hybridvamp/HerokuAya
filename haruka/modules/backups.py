@@ -2,7 +2,7 @@ import json, time, os
 from io import BytesIO
 from typing import Optional
 
-from telegram import MAX_MESSAGE_LENGTH, ParseMode, InlineKeyboardMarkup
+from telegram import ParseMode, InlineKeyboardMarkup
 from telegram import Message, Chat, Update, Bot
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async, Filters
@@ -11,7 +11,7 @@ import haruka.modules.sql.notes_sql as sql
 from haruka import dispatcher, LOGGER, OWNER_ID, SUDO_USERS, MESSAGE_DUMP
 from haruka.__main__ import DATA_IMPORT
 from haruka.modules.helper_funcs.chat_status import user_admin
-from haruka.modules.helper_funcs.misc import build_keyboard, revert_buttons
+from haruka.modules.helper_funcs.misc import revert_buttons
 from haruka.modules.helper_funcs.msg_types import get_note_type
 from haruka.modules.rules import get_rules
 import haruka.modules.sql.rules_sql as rulessql
@@ -101,16 +101,15 @@ def import_data(bot: Bot, update):
 
 			text = "Backup fully restored on *{}*.".format(chat_name)
 		else:
-			text = "Backup fully restored on *{}*.".format(chatname)
+			text = "Backup fully restored on this chat")
 		msg.reply_text(text, parse_mode="markdown")
 
 
 @run_async
 @user_admin
 def export_data(bot: Bot, update: Update, chat_data):
-	msg = update.effective_message  # type: Optional[Message]
-	user = update.effective_user  # type: Optional[User]
-
+	msg = update.effective_message 
+	
 	chat_id = update.effective_chat.id
 	chat = update.effective_chat
 	current_chat_id = update.effective_chat.id
