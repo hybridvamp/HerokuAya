@@ -101,7 +101,7 @@ def khiladitext(bot: Bot, update: Update):
     randint = random.randint(1, 699)
     magick = """convert foto/khiladi.jpg -font Impact -pointsize 50 -size 1280x720 -stroke white -strokewidth 1 -fill black -background none -gravity north caption:"{}" -flatten khiladied{}.jpg""".format(reply_text, randint)
     os.system(magick)
-    with open('foto/khiladied{}.jpg'.format(randint), 'rb') as mockedphoto:
+    with open('khiladied{}.jpg'.format(randint), 'rb') as mockedphoto:
         message.reply_to_message.reply_photo(photo=mockedphoto, reply=message.reply_to_message)
     os.remove('foto/khiladied{}.jpg'.format(randint))
 
@@ -124,7 +124,7 @@ def ayushtext(bot: Bot, update: Update):
     randint = random.randint(1, 699)
     magick = """convert foto/ayush.jpg -font Impact -pointsize 50 -size 400x300 -stroke black -strokewidth 1 -fill white -background none -gravity north caption:"{}" -flatten ayushed{}.jpg""".format(reply_text, randint)
     os.system(magick)
-    with open('foto/ayushed{}.jpg'.format(randint), 'rb') as mockedphoto:
+    with open('ayushed{}.jpg'.format(randint), 'rb') as mockedphoto:
         message.reply_to_message.reply_photo(photo=mockedphoto, reply=message.reply_to_message)
     os.remove('foto/ayushed{}.jpg'.format(randint))
 
