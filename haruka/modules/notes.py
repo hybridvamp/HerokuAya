@@ -113,7 +113,6 @@ def get(bot, update, notename, show_none=True, no_format=False):
 							failtext += "\n\n```\n{}```".format(note.value + revert_buttons(buttons))
 							message.reply_text(failtext, parse_mode="markdown")
 						print("Gagal mengirim catatan: " + excp.message)
-						pass
 				else:
 					ENUM_FUNC_MAP[note.msgtype](send_id, note.file, caption=text, reply_to_message_id=reply_id,
 												parse_mode=parseMode, disable_web_page_preview=True,
@@ -227,7 +226,7 @@ def list_notes(bot: Bot, update: Update):
     if not conn == False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
-        msg = "*Notes in {}:*\n"
+        msg = "*List of Notes in {}:*\n"
     else:
         chat_id = update.effective_chat.id
         if chat.type == "private":
@@ -235,7 +234,7 @@ def list_notes(bot: Bot, update: Update):
             msg = "*Local Notes:*\n"
         else:
             chat_name = chat.title
-            msg = "*Notes in {}:*\n"
+            msg = "*List of Notes in {}:*\n"
 
     note_list = sql.get_all_chat_notes(chat_id)
 
@@ -250,7 +249,7 @@ def list_notes(bot: Bot, update: Update):
         update.effective_message.reply_text("No notes in *{}*!".format(chat_name), parse_mode=ParseMode.MARKDOWN)
 
     elif len(msg) != 0:
-        msg += "\nYou can retrieve these notes by using `/get notename`, or `#notename`"
+        msg += "\nYou can retrieve these notes by using `/get notename`, or just copy paste `#notename`"
         update.effective_message.reply_text(msg.format(chat_name), parse_mode=ParseMode.MARKDOWN)
 
 
