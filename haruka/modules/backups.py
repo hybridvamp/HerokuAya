@@ -101,7 +101,7 @@ def import_data(bot: Bot, update):
 
 			text = "Backup fully restored on *{}*.".format(chat_name)
 		else:
-			text = "Backup fully restored"
+			text = "Backup fully restored on *{}*.".format(chatname)
 		msg.reply_text(text, parse_mode="markdown")
 
 
@@ -126,7 +126,6 @@ def export_data(bot: Bot, update: Update, chat_data):
 			return ""
 		chat = update.effective_chat
 		chat_id = update.effective_chat.id
-		chat_name = update.effective_message.chat.title
 
 	jam = time.time()
 	new_jam = jam + 10800
