@@ -101,7 +101,7 @@ def import_data(bot: Bot, update):
 
 			text = "Backup fully restored on *{}*.".format(chat_name)
 		else:
-			text = "Backup fully restored")
+			text = "Backup fully restored"
 		msg.reply_text(text, parse_mode="markdown")
 
 
