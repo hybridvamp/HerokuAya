@@ -6,7 +6,6 @@ A modular Telegram bot running on python3 with an sqlalchemy database, with some
 
 
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/88deb1379fc143f5b0d3292c86b2b02c)](https://app.codacy.com/manual/Nitin1818/Logan?utm_source=github.com&utm_medium=referral&utm_content=Nitin1818/Logan&utm_campaign=Badge_Grade_Dashboard)
 
 ## Thanks to
 
