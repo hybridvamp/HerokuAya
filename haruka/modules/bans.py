@@ -64,7 +64,8 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
 
     try:
         chat.kick_member(user_id)
-        #bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
+        keyboard = []
+        bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         message.reply_text(reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
         return log
 
