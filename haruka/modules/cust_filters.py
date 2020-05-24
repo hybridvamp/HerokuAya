@@ -2,7 +2,7 @@ import re
 from typing import Optional
 
 import telegram
-from telegram import ParseMode, InlineKeyboardMarkup, Message, Chat
+from telegram import ParseMode, InlineKeyboardMarkup, Message, Chat, User
 from telegram import Update, Bot
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, run_async
@@ -184,6 +184,7 @@ def stop_filter(bot: Bot, update: Update):
 @run_async
 def reply_filter(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
+    user = update.effective_user
     message = update.effective_message  # type: Optional[Message]
     to_match = extract_text(message)
     if not to_match:
