@@ -45,6 +45,9 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     if user_id == bot.id:
         message.reply_text(tld(chat.id, "I'm not gonna BAN myself, are you crazy?"))
         return ""
+    
+    if user_id == 777000:
+        message.reply_text(tld(chat.id, "Really u r going to ban telegram from telegram i think it is impossible keep trying maybe u can"))
 
     if is_user_ban_protected(chat, user_id, member):
         message.reply_text(tld(chat.id, "Why would I ban an admin? That sounds like a pretty dumb idea."))
