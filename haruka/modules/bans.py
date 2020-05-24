@@ -57,7 +57,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
           "\n<b>• ID:</b> <code>{}</code>".format(html.escape(chat.title), mention_html(user.id, user.first_name), 
                                                   mention_html(member.user.id, member.user.first_name), user_id)
 
-    reply = "🔨 Banned {}\n with the ban hammer".format(mention_html(member.user.id, member.user.first_name))
+    reply = "🔨 Banned {}\nwith the ban hammer".format(mention_html(member.user.id, member.user.first_name))
 
     if reason:
         log += "\n<b>Reason:</b> {}".format(reason)
@@ -65,7 +65,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     try:
         chat.kick_member(user_id)
         #bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
-        message.reply_text(tld(chat.id, "Banned!"))
+        message.reply_text(reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
         return log
 
     except BadRequest as excp:
