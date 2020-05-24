@@ -45,6 +45,10 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
     if user_id == bot.id:
         message.reply_text(tld(chat.id, "I'm not muting myself!"))
         return ""
+    
+    if user_id == 777000:
+        message.reply_text(tld(chat.id, "I can't mute tg from tg u need to install whatsapp for thta lmao 😂"))
+        return ""
 
     member = chatD.get_member(int(user_id))
 
