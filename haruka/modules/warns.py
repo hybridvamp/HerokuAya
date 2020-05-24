@@ -29,7 +29,7 @@ def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = N
     if is_user_admin(chat, user.id):
         message.reply_text("I'm not going to warn an admin!")
         return ""
-    if user_id == 777000:
+    if user.id == 777000:
         message.reply_text("I can't warn tg ;-;")
         return ""
 
