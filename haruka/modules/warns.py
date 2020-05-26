@@ -21,7 +21,6 @@ from haruka.modules.log_channel import loggable
 from haruka.modules.sql import warns_sql as sql
 
 WARN_HANDLER_GROUP = 9
-CURRENT_WARNING_FILTER_STRING = "*Active warning filters in this chat:*\n"
 
 
 # Not async
@@ -122,7 +121,7 @@ def button(bot: Bot, update: Update) -> str:
                                                                 user_member.user.id)
         else:
             update.effective_message.edit_text(
-                "User has already has no warns.".format(mention_html(user.id, user.first_name)),
+                "{} has already has 0 warns.".format(mention_html(user.id, user.first_name)),
                 parse_mode=ParseMode.HTML)
 
     return ""
@@ -257,7 +256,8 @@ def add_warn_filter(bot: Bot, update: Update):
 
     sql.add_warn_filter(chat.id, keyword, content)
 
-    update.effective_message.reply_text("Warn handler added for '{}'!".format(keyword))
+    update.effective_message.reply_text("Warn handler added for '`{key}`' in *{chat}*".format(key=keyword, chat=chat.title),
+                                        parse_mode=ParseMode.MARKDOWN)
     raise DispatcherHandlerStop
 
 
@@ -281,13 +281,15 @@ def remove_warn_filter(bot: Bot, update: Update):
     chat_filters = sql.get_chat_warn_triggers(chat.id)
 
     if not chat_filters:
-        msg.reply_text("No warning filters are active here!")
+        msg.reply_text("*No warning filters are active in {}:*".format(chat.title),
+                       parse_mode=ParseMode.MARKDOWN)
         return
 
     for filt in chat_filters:
         if filt == to_remove:
             sql.remove_warn_filter(chat.id, to_remove)
-            msg.reply_text("Yep, I'll stop warning people for that.")
+            msg.reply_text("Yo, I'll stop warning people for '`{key}`' in *{chat}*.".format(key=keyword, chat=chat.title),
+                           parse_mode=ParseMode.MARKDOWN)
             raise DispatcherHandlerStop
 
     msg.reply_text("That's not a current warning filter - run /warnlist for all active warning filters.")
@@ -297,9 +299,11 @@ def remove_warn_filter(bot: Bot, update: Update):
 def list_warn_filters(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
     all_handlers = sql.get_chat_warn_triggers(chat.id)
+    CURRENT_WARNING_FILTER_STRING = "*Active warning filters in {}:*\n".format(chat.title)
 
     if not all_handlers:
-        update.effective_message.reply_text("No warning filters are active here!")
+        update.effective_message.reply_text("*No warning filters are active in {};*".format(chat.title),
+                                            parse_mode=ParseMode.MARKDOWN)
         return
 
     filter_list = CURRENT_WARNING_FILTER_STRING
