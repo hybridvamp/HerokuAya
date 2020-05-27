@@ -28,9 +28,6 @@ def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = N
     if is_user_admin(chat, user.id):
         message.reply_text("I'm not going to warn an admin!")
         return ""
-    if user.id == 777000:
-        message.reply_text("I can't warn tg ;-;")
-        return ""
 
     if warner:
         warner_tag = mention_html(warner.id, warner.first_name)
@@ -456,7 +453,7 @@ RM_WARN_HANDLER = DisableAbleCommandHandler(["nowarn", "stopwarn"], remove_warn_
 LIST_WARN_HANDLER = DisableAbleCommandHandler(["warnlist", "warnfilters"], list_warn_filters, filters=Filters.group, admin_ok=True)
 WARN_FILTER_HANDLER = MessageHandler(CustomFilters.has_text & Filters.group, reply_filter)
 WARN_LIMIT_HANDLER = DisableAbleCommandHandler("warnlimit", set_warn_limit, pass_args=True, filters=Filters.group, admin_ok=True)
-WARN_STRENGTH_HANDLER = CommandHandler("strongwarn", set_warn_strength, pass_args=True, filters=Filters.group)
+WARN_STRENGTH_HANDLER = CommandHandler("strongwarn", set_warn_strength, pass_args=True, filters=Filters.group, admin_ok=True)
 REMOVE_WARNS_HANDLER = CommandHandler(["rmwarn", "unwarn"], remove_warns, pass_args=True, filters=Filters.group, admin_ok=True)
 
 dispatcher.add_handler(WARN_HANDLER)
