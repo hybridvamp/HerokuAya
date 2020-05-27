@@ -21,7 +21,7 @@ def afk(bot: Bot, update: Update):
     user = update.effective_user
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
-    if not user:  # ignore channels
+    if user.id == 777000:  # ignore channels
         return
     if len(args) >= 2:
         reason = args[1]
@@ -38,7 +38,7 @@ def no_longer_afk(bot: Bot, update: Update):
     user = update.effective_user  # type: Optional[User]
     chat = update.effective_chat  # type: Optional[Chat]
 
-    if not user:  # ignore channels
+    if user.id == 777000:  # ignore channels
         return
 
     res = sql.rm_afk(user.id)
@@ -53,6 +53,9 @@ def no_longer_afk(bot: Bot, update: Update):
 @run_async
 def reply_afk(bot: Bot, update: Update):
     message = update.effective_message  # type: Optional[Message]
+    user = update.effective_user
+    if user.id == 777000:
+        return
     if message.entities and message.parse_entities([MessageEntity.TEXT_MENTION, MessageEntity.MENTION]):
         entities = message.parse_entities([MessageEntity.TEXT_MENTION, MessageEntity.MENTION])
         for ent in entities:
@@ -85,6 +88,9 @@ def reply_afk(bot: Bot, update: Update):
 
 def check_afk(bot, update, user_id, fst_name):
     chat = update.effective_chat  # type: Optional[Chat]
+    user = update.effective_user
+    if user.id == 777000:
+        return
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
         if not user.reason:
