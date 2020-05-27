@@ -75,7 +75,7 @@ if is_module_loaded(FILENAME):
 
             if disable_cmd in set(DISABLE_CMDS + DISABLE_OTHER):
                 sql.disable_command(chat.id, disable_cmd)
-                update.effective_message.reply_text("Disabled the use of `{}`".format(disable_cmd),
+                update.effective_message.reply_text("Disabled the use of '`{cmd}`' in *{chat}*".format(cmd=disable_cmd, chat=chat.title),
                                                     parse_mode=ParseMode.MARKDOWN)
             else:
                 update.effective_message.reply_text("That command can't be disabled")
@@ -94,7 +94,7 @@ if is_module_loaded(FILENAME):
                 enable_cmd = enable_cmd[1:]
 
             if sql.enable_command(chat.id, enable_cmd):
-                update.effective_message.reply_text("Enabled the use of `{}`".format(enable_cmd),
+                update.effective_message.reply_text("Enabled the use of '`{cmd}`' in *{chat}*".format(cmd=enable_cmd, chat=chat.title),
                                                     parse_mode=ParseMode.MARKDOWN)
             else:
                 update.effective_message.reply_text("Is that even disabled?")
