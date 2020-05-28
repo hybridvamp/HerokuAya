@@ -141,7 +141,7 @@ def filters(bot: Bot, update: Update):
     sql.add_filter(chat_id, keyword, content, is_sticker, is_document, is_image, is_audio, is_voice, is_video,
                    buttons)
 
-    msg.reply_text(tld(chat.id, "Handler '{}' added in *{}*!").format(keyword, chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+    msg.reply_text(tld(chat.id, "Handler '`{}`' added in *{}*!").format(keyword, chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
     raise DispatcherHandlerStop
 
 
@@ -169,13 +169,13 @@ def stop_filter(bot: Bot, update: Update):
     chat_filters = sql.get_chat_triggers(chat_id)
 
     if not chat_filters:
-        update.effective_message.reply_text(tld(chat.id, "No filters are active in {}!").format(chat_name))
+        update.effective_message.reply_text(tld(chat.id, "No filters are active in *{}*!").format(chat_name))
         return
 
     for keyword in chat_filters:
         if keyword == args[1]:
             sql.remove_filter(chat_id, args[1])
-            update.effective_message.reply_text(tld(chat.id, "Yep, I'll stop replying to that in *{}*.").format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+            update.effective_message.reply_text(tld(chat.id, "Ok, I'll stop replying for '`{}`' in *{}*.").format(keyword, chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
             raise DispatcherHandlerStop
 
     update.effective_message.reply_text(tld(chat.id, "That's not a current filter - run /filters for all active filters."))
