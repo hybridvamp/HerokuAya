@@ -278,14 +278,14 @@ def remove_warn_filter(bot: Bot, update: Update):
     chat_filters = sql.get_chat_warn_triggers(chat.id)
 
     if not chat_filters:
-        msg.reply_text("*No warning filters are active in {}:*".format(chat.title),
+        msg.reply_text("No warning filters are active in *{}!*".format(chat.title),
                        parse_mode=ParseMode.MARKDOWN)
         return
 
     for filt in chat_filters:
         if filt == to_remove:
             sql.remove_warn_filter(chat.id, to_remove)
-            msg.reply_text("Yo, I'll stop warning people for '`{key}`' in *{chat}*.".format(key=keyword, chat=chat.title),
+            msg.reply_text("Yo, I'll stop warning people for '`{key}`' in *{chat}*.".format(key=to_remove, chat=chat.title),
                            parse_mode=ParseMode.MARKDOWN)
             raise DispatcherHandlerStop
 
@@ -296,10 +296,10 @@ def remove_warn_filter(bot: Bot, update: Update):
 def list_warn_filters(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
     all_handlers = sql.get_chat_warn_triggers(chat.id)
-    CURRENT_WARNING_FILTER_STRING = "*Active warning filters in {}:*\n".format(chat.title)
+    CURRENT_WARNING_FILTER_STRING = "Active warning filters in *{}:*\n".format(chat.title)
 
     if not all_handlers:
-        update.effective_message.reply_text("*No warning filters are active in {};*".format(chat.title),
+        update.effective_message.reply_text("No warning filters are active in *{};*".format(chat.title),
                                             parse_mode=ParseMode.MARKDOWN)
         return
 
