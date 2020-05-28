@@ -33,7 +33,7 @@ def list_handlers(bot: Bot, update: Update):
     if not conn == False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
-        filter_list = tld(chat.id, "*List of filters in {}:*\n")
+        filter_list = tld(chat.id, "List of filters in *{}*:\n")
     else:
         chat_id = update.effective_chat.id
         if chat.type == "private":
@@ -41,12 +41,12 @@ def list_handlers(bot: Bot, update: Update):
             filter_list = tld(chat.id, "*local filters:*\n")
         else:
             chat_name = chat.title
-            filter_list = tld(chat.id, "*Filters in {}*:\n")
+            filter_list = tld(chat.id, "Filters in *{}*:\n")
 
     all_handlers = sql.get_chat_triggers(chat_id)
 
     if not all_handlers:
-        update.effective_message.reply_text(tld(chat.id, "No filters in {}!").format(chat_name))
+        update.effective_message.reply_text(tld(chat.id, "No filters in *{}*!").format(chat_name))
         return
 
     for keyword in all_handlers:
@@ -175,7 +175,7 @@ def stop_filter(bot: Bot, update: Update):
     for keyword in chat_filters:
         if keyword == args[1]:
             sql.remove_filter(chat_id, args[1])
-            update.effective_message.reply_text(tld(chat.id, "Ok, I'll stop replying for '`{}`' in *{}*.").format(keyword, chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+            update.effective_message.reply_text(tld(chat.id, "yO, I'll stop replying for that in *{}*.").format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
             raise DispatcherHandlerStop
 
     update.effective_message.reply_text(tld(chat.id, "That's not a current filter - run /filters for all active filters."))
