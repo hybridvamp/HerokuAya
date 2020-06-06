@@ -542,7 +542,6 @@ Perintah tersedia:
  - /start: Perintah keren untuk memeriksa apakah bot masih hidup atau tidak
  - /help: Bantuan.
  - /help <nama modul>: Bantuan tentang modul.
- - /donate: informasi tentang cara menyumbang!
  - /lang: mengubah bahasa bot
  - /settings:
    -di PM: akan mengirimkan setelan untuk semua modul yang didukung.
