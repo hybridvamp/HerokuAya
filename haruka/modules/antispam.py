@@ -54,6 +54,10 @@ def gban(bot: Bot, update: Update, args: List[str]):
     if not user_id:
         message.reply_text("You don't seem to be referring to a user.")
         return
+    
+    if user_id == OWNER_ID:
+        message.reply_text("I'm not gonna gban to master u noob nice try -_-")
+        return
 
     if int(user_id) in SUDO_USERS:
         message.reply_text("I spy, with my little eye... a sudo user war! Why are you guys turning on each other?")
