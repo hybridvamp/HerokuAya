@@ -123,7 +123,7 @@ def get_id(bot: Bot, update: Update, args: List[str]):
                 parse_mode=ParseMode.MARKDOWN)
         else:
             user = bot.get_chat(user_id)
-            update.effective_message.reply_text(tld(chat.id, "{}'s id is `{}`.").format(escape_markdown(user.first_name), user.id),
+            update.effective_message.reply_text(tld(chat.id, "User {}'s id is `{}`.").format(escape_markdown(user.first_name), user.id),
                                                 parse_mode=ParseMode.MARKDOWN)
     else:
         chat = update.effective_chat  # type: Optional[Chat]
@@ -168,7 +168,7 @@ def info(bot: Bot, update: Update, args: List[str]):
     if user.username:
         text += tld(chat.id, "\nUsername: @{}").format(html.escape(user.username))
 
-    text += tld(chat.id, "\nUser link: {}\n").format(mention_html(user.id, "link"))
+    text += tld(chat.id, "\nUser link: {}\n").format(mention_html(user.id, user.first_name))
 
     if user.id == OWNER_ID:
         text += tld(chat.id, "\n\nAy, This guy is my owner. I would never do anything against him!")
