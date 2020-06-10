@@ -64,7 +64,7 @@ def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = N
         keyboard = InlineKeyboardMarkup(
             [[InlineKeyboardButton("Remove warn⚠️(admin only)", callback_data="rm_warn({})".format(user.id))]])
 
-        reply = "{} <b>has been warned!</b>\nTotal warn that this user have {}/{}".format(mention_html(user.id, user.first_name), num_warns,
+        reply = "User {} <b>has been warned in {}!</b>\nTotal warn that this user have {}/{}".format(mention_html(user.id, user.first_name), chat.title, num_warns,
                                                              limit)
         if reason:
             reply += "\nReason for the warn:\n<code>{}</code>".format(html.escape(reason))
@@ -106,7 +106,7 @@ def button(bot: Bot, update: Update) -> str:
         res = sql.remove_warn(user_id, chat.id)
         if res:
             update.effective_message.edit_text(
-                "Warn removed by {}.".format(mention_html(user.id, user.first_name)),
+                "Warn removed by Admin {}.".format(mention_html(user.id, user.first_name)),
                 parse_mode=ParseMode.HTML)
             user_member = chat.get_member(user_id)
             return "<b>{}:</b>" \
