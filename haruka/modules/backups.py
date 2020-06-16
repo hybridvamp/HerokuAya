@@ -122,7 +122,12 @@ def export_data(bot: Bot, update: Update, chat_data):
 	else:
 		if update.effective_message.chat.type == "private":
 			update.effective_message.reply_text("This command can only be used on group, not PM")
-			return ""
+			pass
+		creator = chat.get_member(user.id)
+		if creator.status != 'creator':
+			update.effective_message.reply_text("Only Creator of *{}* have sufficient rights to export chat data.".format(chat.title), parse_mode=ParseMode.MARKDOWN)
+			return
+		
 		chat = update.effective_chat
 		chat_id = update.effective_chat.id
 
