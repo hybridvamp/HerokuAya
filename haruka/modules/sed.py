@@ -1,11 +1,11 @@
-import re
-import sre_constants
+import re, sre_constants
 
 import telegram
 from telegram import Update, Bot
 from telegram.ext import run_async
 
 from haruka import dispatcher, LOGGER
+from haruka.modules.helper_funcs.chat_status import bot_admin
 from haruka.modules.disable import DisableAbleRegexHandler
 
 DELIMITERS = ("/", ":", "|", "_")
@@ -49,8 +49,12 @@ def separate_sed(sed_string):
         return replace, replace_with, flags.lower()
 
 
+@bot_admin
 @run_async
 def sed(bot: Bot, update: Update):
+    if update.effective_message.chat.type == "private":
+        update.effective_message.reply_text("This command can only be used in a group, not in PM.")
+        return
     sed_result = separate_sed(update.effective_message.text)
     if sed_result and update.effective_message.reply_to_message:
         if update.effective_message.reply_to_message.text:
