@@ -33,7 +33,8 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
         chatD = dispatcher.bot.getChat(conn)
     else:
         if chat.type == "private":
-            exit(1)
+            message.reply_text("This command can only be used in a group, not in PM.")
+            return ""
         else:
             chatD = chat
 
@@ -93,7 +94,8 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
         chatD = dispatcher.bot.getChat(conn)
     else:
         if chat.type == "private":
-            exit(1)
+            message.reply_text("This command can only be used in a group, not in PM.")
+            return ""
         else:
             chatD = chat
 
@@ -236,7 +238,8 @@ def nomedia(bot: Bot, update: Update, args: List[str]) -> str:
         chatD = dispatcher.bot.getChat(conn)
     else:
         if chat.type == "private":
-            exit(1)
+            message.reply_text("This command can only be used in a group, not in PM.")
+            return ""
         else:
             chatD = chat
 
@@ -293,7 +296,8 @@ def media(bot: Bot, update: Update, args: List[str]) -> str:
         chatD = dispatcher.bot.getChat(conn)
     else:
         if chat.type == "private":
-            exit(1)
+            message.reply_text("This command can only be used in a group, not in PM.")
+            return ""
         else:
             chatD = chat
 
