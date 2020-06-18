@@ -99,7 +99,7 @@ def report(bot: Bot, update: Update) -> str:
             reply_markup = InlineKeyboardMarkup(keyboard)
 
         else:
-            msg = "{} is calling for admins in \"{}\"!".format(mention_html(user.id, user.first_name),
+            msg = "User {} is calling for admins in \"{}\"!".format(mention_html(user.id, user.first_name),
                                                                html.escape(chat_name))
             link = ""
             should_forward = True
@@ -144,7 +144,7 @@ def report(bot: Bot, update: Update) -> str:
                 except BadRequest as excp:  # TODO: cleanup exceptions
                     LOGGER.exception("Exception while reporting user")
 
-        bot.send_message(chat.id, tld(update.effective_message, "📢 {} <b>has been reported to the chat admins!</b>{}").format(
+        bot.send_message(chat.id, tld(update.effective_message, "<b>User {} has been reported to the chat admins!</b>{}").format(
                                             mention_html(reported_user.id, reported_user.first_name),
                                             "".join(all_admins)), parse_mode=ParseMode.HTML, reply_to_message_id=message.reply_to_message.message_id)
         return msg
