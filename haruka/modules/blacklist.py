@@ -1,5 +1,4 @@
-import html
-import re
+import html, re
 from typing import Optional, List
 
 from telegram import Message, Chat, Update, Bot, ParseMode
@@ -32,7 +31,8 @@ def blacklist(bot: Bot, update: Update, args: List[str]):
         chat_name = dispatcher.bot.getChat(conn).title
     else:
         if chat.type == "private":
-            exit(1)
+            message.reply_text("This command can only be used in a group, not in PM.")
+            return ""
         else:
             chat_id = update.effective_chat.id
             chat_name = chat.title
@@ -71,7 +71,8 @@ def add_blacklist(bot: Bot, update: Update):
     else:
         chat_id = update.effective_chat.id
         if chat.type == "private":
-            exit(1)
+            message.reply_text("This command can only be used in a group, not in PM.")
+            return ""
         else:
             chat_name = chat.title
 
@@ -108,7 +109,8 @@ def unblacklist(bot: Bot, update: Update):
     else:
         chat_id = update.effective_chat.id
         if chat.type == "private":
-            exit(1)
+            message.reply_text("This command can only be used in a group, not in PM.")
+            return ""
         else:
             chat_name = chat.title
 
@@ -190,7 +192,7 @@ def __import_data__(chat_id, data):
         sql.add_to_blacklist(chat_id, trigger)
 
 
-__mod_name__ = "Word Blacklists"
+__mod_name__ = "Blacklist"
 
 __help__ = """
 You can set blacklist filters to take automatic action on people when they say certain things. This is done using:
