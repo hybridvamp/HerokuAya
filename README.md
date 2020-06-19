@@ -1,7 +1,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8ea4044b48ee4cfba385b4cee39beda8)](https://www.codacy.com/manual/Nitin1818/Logan?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nitin1818/Logan&amp;utm_campaign=Badge_Grade)
 
 
-## Loganbot
+## HarukaAya Clone
 
 A modular Telegram bot running on python3 with an sqlalchemy database, with some extra fun.
 
